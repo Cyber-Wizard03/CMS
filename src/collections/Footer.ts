@@ -3,12 +3,17 @@ import Heading from '../blocks/Heading'
 import { GlobalConfig } from 'payload/types'
 import NavItem from '../blocks/nav/NavItem'
 import NavSeparator from '../blocks/nav/NavSeparator'
+import { isAdmin } from './access/isAdmin'
 export const Footer: GlobalConfig = {
     slug: 'footer',
-
-    access: {
-        read: () => true,
-    },
+    label: 'Подвал',
+    admin:{
+        group:"Навигация"
+      },
+      access: {
+        read:() => true,
+        update:isAdmin,
+      },
 
     fields: [
    

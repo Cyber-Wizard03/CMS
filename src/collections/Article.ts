@@ -5,6 +5,8 @@ import File from '../blocks/File'
 import Images from '../blocks/Images'
 import { CollectionConfig } from 'payload/types'
 import SimpleRichText from '../blocks/SimpleRichText'
+import { isAdmin } from './access/isAdmin'
+import { isEditor } from './access/isEditor'
 
 const Article: CollectionConfig = {
   slug: 'article',
@@ -12,9 +14,14 @@ const Article: CollectionConfig = {
     singular: 'Статья',
     plural:'Статьи',
   },
+  admin:{useAsTitle:'title',
+    group:"Страницы",
+  },
   auth: false,
   access: {
-    read: () => true,
+    read:() => true,
+    create: isEditor,
+    update:isEditor,
   },
   fields: [
     {

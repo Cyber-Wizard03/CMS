@@ -1,23 +1,35 @@
-import { CollectionConfig } from 'payload/types'
-import { isAdmin } from './access/isAdmin'
-import { isAdminOrSelf } from './access/isAdminOrSelf'
+import { CollectionConfig } from 'payload/types';
+// import { isAdmin, isAdminFieldLevel } from '../../access/isAdmin';
+import { isAdminOrSelf } from '../access/isAdminOrSelf';
+import { isAdmin, isAdminFieldLevel } from '../access/isAdmin';
+// import { isAdminOrSelf } from '../../access/isAdminOrSelf';
 
-const Users: CollectionConfig = {
+export const Users: CollectionConfig = {
   slug: 'users',
   labels:{
     singular: 'Пользователь',
     plural:'Пользователи',
   },
-  auth: true,
+  auth: {
+    // This property controls how deeply "populated"
+    // relationship docs are that are stored in the req.user.
+    // It should be kept to as low as possible, which 
+    // keeps performance fast.
+    depth: 0,
+  },
   admin: {
     useAsTitle: 'firstName',
-      group:"Пользователи"
   },
   access: {
+    // Only admins can create users
     create: isAdmin,
-    read:isAdminOrSelf
+    // Admins can read all, but any other logged in user can only read themselves
+    read: isAdminOrSelf,
+    // Admins can update all, but any other logged in user can only update themselves
+    update: isAdminOrSelf,
+    // Only admins can delete
+    delete: isAdmin,
   },
-
   fields: [
     {
       type: 'row',
@@ -43,11 +55,11 @@ const Users: CollectionConfig = {
       saveToJWT: true,
       type: 'select',
       hasMany: true,
-      defaultValue: ['user'],
+      defaultValue: ['editor'],
       access: {
         // Only admins can create or update a value for this field
-        create: isAdmin,
-        update: isAdmin,
+        create: isAdminFieldLevel,
+        update: isAdminFieldLevel,
       },
       options: [
         {
@@ -58,14 +70,8 @@ const Users: CollectionConfig = {
           label: 'Редактор',
           value: 'editor',
         },
-        {
-          label: 'Пользователь',
-          value: 'user',
-        },
       ]
     },
    
   ],
-}
-
-export default Users
+};

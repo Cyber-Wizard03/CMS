@@ -4,6 +4,8 @@ import Heading from '../blocks/Heading'
 import File from '../blocks/File'
 import SimpleRichText from '../blocks/SimpleRichText'
 import { CollectionConfig } from 'payload/types'
+import { isAdmin } from './access/isAdmin'
+import { isEditor } from './access/isEditor'
 
 
 
@@ -11,14 +13,18 @@ export const Pages: CollectionConfig = {
     slug: 'pages',
     admin: {
         useAsTitle: 'namepage',
+        group:"Страницы"
     },
+
     labels: {
         singular: 'Страница',
         plural: 'Страницы',
     },
     access: {
-        read: () => true,
-    },
+        read:() => true,
+        create: isAdmin,
+        update:isAdmin,
+      },
     fields: [
         {
             name: 'namepage',

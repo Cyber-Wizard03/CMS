@@ -1,13 +1,19 @@
 import { CollectionConfig } from 'payload/types'
+import { isAdmin } from './access/isAdmin';
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  admin:{
+    group:"Файлы"
+  },
   labels:{
     singular: 'Медиа',
     plural:'Медиа',
   },
-  access:{
-    read: () => true,
+  access: {
+    read:() => true,
+    create: isAdmin,
+    update:isAdmin,
   },
   upload: {
     staticURL: '/media',

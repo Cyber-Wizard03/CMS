@@ -43,18 +43,7 @@ const NavDropdown: Block = {
                 ]
             }
         ]
-    },  {
-        name: 'layout',
-        label: 'Подменю',
-        type: 'blocks',
-        blocks: [
-         
-            NavItem,
-            NavSeparator
-        ]
-
-
-    }
+    }, 
     ]
 };
 export default NavDropdown;
